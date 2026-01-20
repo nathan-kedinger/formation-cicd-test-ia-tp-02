@@ -16,31 +16,9 @@ package com.devops.cicd.order;
  */
 public class Order {
 
-    private final String id;
-    private final int quantity;
-    private final double unitPrice;
-    private final boolean priority;
+    // TODO: définir les attributs
 
-    public Order(String id, int quantity, double unitPrice, boolean priority) {
-        this.id = id;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-        this.priority = priority;
-    }
+    // TODO: écrire le constructeur
 
-    public String getId() {
-        return id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public boolean isPriority() {
-        return priority;
-    }
+    // TODO: écrire les getters
 }
