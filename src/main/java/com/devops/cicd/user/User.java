@@ -7,17 +7,19 @@ public class User {
     private final Role role;
 
     public User(String email, String password, Role role) {
-        // TODO: appliquer toutes les règles de validation de la spec
-        // - email: obligatoire, trim, format simple
-        // - password: obligatoire, strong (PasswordPolicy.isStrong)
-        // - role: obligatoire (non null)
-        //
-        // En cas d'erreur: IllegalArgumentException avec un message explicite
-        // ("email must be valid", "password must be strong", "role must not be null")
+        if (!EmailValidator.isValid(email)) {
+            throw new IllegalArgumentException("email must be valid");
+        }
+        if (password == null || !com.devops.cicd.PasswordPolicy.isStrong(password)) {
+            throw new IllegalArgumentException("password must be strong");
+        }
+        if (role == null) {
+            throw new IllegalArgumentException("role must not be null");
+        }
 
-        this.email = email;       // TODO: email doit être normalisé (trim)
-        this.password = password; // TODO: password ne doit pas être modifié
-        this.role = role;         // TODO: role non null
+        this.email = email.trim();
+        this.password = password;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -33,8 +35,7 @@ public class User {
     }
 
     public boolean canAccessAdminArea() {
-        // TODO: true uniquement si role == ADMIN
-        return false;
+        return role == Role.ADMIN;
     }
 
     // BONUS: vous pouvez ajouter equals/hashCode/toString si utile (non obligatoire)

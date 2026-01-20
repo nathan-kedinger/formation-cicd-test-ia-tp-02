@@ -11,8 +11,14 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: 'maven'
       - name: Run unit tests
-        run: mvn test -Dtest=PricingServiceTest,passwordPolicyTest
+        run: mvn test -Dtest=PricingServiceTest,PasswordPolicyTest,EmailValidatorTest,UserTest,UserServiceTest,OrderValidatorTest,OrderServiceTest
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
 
   quality:
     runs-on: ubuntu-latest
@@ -23,8 +29,12 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: 'maven'
       - name: Quality checks (Checkstyle + SpotBugs)
         run: mvn verify -DskipTests
+      - name: Dependency Check
+        run: mvn org.owasp:dependency-check-maven:check
+        continue-on-error: true
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -35,6 +45,25 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: 'maven'
       - name: Run integration tests
         run: mvn test -Dtest=PricingIntegrationTest,ConfigIntegrationTest
+
+  package:
+    runs-on: ubuntu-latest
+    needs: [integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build JAR
+        run: mvn package -DskipTests
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-jar
+          path: target/*.jar
 

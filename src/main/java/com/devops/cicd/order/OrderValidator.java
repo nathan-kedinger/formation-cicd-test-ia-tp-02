@@ -21,6 +21,17 @@ public final class OrderValidator {
     }
 
     public static void validate(Order order) {
-        // TODO: implémenter les règles de validation
+        if (order == null) {
+            throw new IllegalArgumentException("order must not be null");
+        }
+        if (order.getId() == null || order.getId().trim().isEmpty()) {
+            throw new IllegalArgumentException("id must not be blank");
+        }
+        if (order.getQuantity() <= 0) {
+            throw new IllegalArgumentException("quantity must be > 0");
+        }
+        if (order.getUnitPrice() <= 0) {
+            throw new IllegalArgumentException("unitPrice must be > 0");
+        }
     }
 }
