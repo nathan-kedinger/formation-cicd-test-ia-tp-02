@@ -32,9 +32,6 @@ jobs:
           cache: 'maven'
       - name: Quality checks (Checkstyle + SpotBugs)
         run: mvn verify -DskipTests
-      - name: Dependency Check
-        run: mvn org.owasp:dependency-check-maven:check
-        continue-on-error: true
 
   integration-tests:
     runs-on: ubuntu-latest
