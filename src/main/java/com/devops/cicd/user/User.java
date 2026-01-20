@@ -1,6 +1,6 @@
 package com.devops.cicd.user;
 
-public class User {
+public final class User {
 
     private final String email;
     private final String password;
